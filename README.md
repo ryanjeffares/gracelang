@@ -1,6 +1,6 @@
 # gracelang
 
-This repository contains the specification for the [Grace Programming Language](https://github.com/ryanjeffares/grace) and its standard library, along with style guidelines, and the language grammar.
+This repository contains the specification for the [Grace Programming Language](https://github.com/ryanjeffares/grace) and its standard library, along with style guidelines, and the language grammar. It is still very much a work in progress while the language itself is.
 
 ## License
 
