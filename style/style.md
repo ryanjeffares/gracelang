@@ -15,11 +15,11 @@ end
 * Functions and variables in Grace should be named with `snake_case`
 ```
 func poorlyNamedFunction(PoorlyNamedArg):  // bad 
-	var poorlynamedlocal;
+  var poorlynamedlocal;
 end
 
 func well_named_function(well_named_arg):  // good
-	var well_named_local;
+  var well_named_local;
 end
 ```
 * `static` fields should be named with `UPPER_SNAKE_CASE`
@@ -38,7 +38,7 @@ end
 ```
 func factorial(n):  // bad - n should be final
   if n < 2:
-	return 1;
+    return 1;
   end
   return n + factorial(n - 1);
 end
@@ -74,7 +74,7 @@ println("hello");        // bad - no indentation
 end
 
 func say_goodbye():
-	println("goodbye");  // bad - indentation is 4 spaces
+    println("goodbye");  // bad - indentation is 4 spaces
 end
 
 func say_hi():
