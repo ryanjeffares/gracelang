@@ -98,17 +98,25 @@ assignment = [ { call "." } ] IDENTIFIER "=" logic_or ;
 
 logic_or = logic_and [ { "or" logic_and } ] ;
 
-logic_and = equality [ { "and" equality } ] ;
+logic_and = bitwise_or [ { "and" bitwise_or } ] ;
+
+bitwise_or = bitwise_xor [ { "|" bitwise_xor } ] ;
+
+bitwise_xor = bitwise_and [ { "^" bitwise_and } ] ;
+
+bitwise_and = equality [ { "&" equality } ] ;
 
 equality = comparison [ { ( "!=" | "==" ) comparison } ] ;
 
-comparison = term [ { ( ">" | ">=" | "<" | "<=" ) term } ] ;
+comparison = shift [ { ( ">" | ">=" | "<" | "<=" ) shift } ] ;
+
+shift = term [ { ( "<<" | ">>" ) term } ]
 
 term = factor [ { ( "-" | "+" ) factor } ] ;
 
 factor = unary [ { ( "/" | "*" ) unary } ] ;
 
-unary = [ ( "!" | "-" ) ] unary | call ;
+unary = [ ( "!" | "-" | "~" ) ] unary | call ;
 
 call = primary [ { "(" [ expression [ { "," expression } ] ] ")" | "." IDENTIFIER } ] ;
 
@@ -142,7 +150,7 @@ ALPHA = "a" ... "z" | "A" ... "Z" | "_" ;
 
 DIGIT = "0" ... "9" ;
 
-TYPE = "int" | "float" | "bool" | "string" | "char" ;
+TYPE = "Int" | "Float" | "Bool" | "String" | "Char" | "List" | "Dict" ;
 
 RANGE = expression ".." expression [ "by" expression ] ;
 
