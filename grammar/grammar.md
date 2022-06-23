@@ -14,11 +14,7 @@ program = { declaration } EOF ;
 
 ```ebnf
 
-declaration = classDecl
-			| funcDecl
-			| varDecl
-			| finalDecl
-			| statement ;
+declaration = classDecl | funcDecl | varDecl | finalDecl | statement ;
 
 classDecl = "class" IDENTIFIER ":" { function } "end" ;
 
@@ -35,46 +31,44 @@ finalDecl = "final" IDENTIFIER "=" expression ";" ;
 ```ebnf
 
 statement = exprStmt
-		  | forStmt
-		  | ifStmt
-		  | printStmt
-		  | printLnStmt
-		  | returnStmt
-		  | whileStmt
-			| tryStmt
-			| throwStmt
-			| assertStmt
-			| breakStmt
-			| continueStmt
-		  | block ;
+	| forStmt
+	| ifStmt
+	| printStmt
+	| printLnStmt
+	| eprintStmt
+	| eprintLnStmt
+	| returnStmt
+	| whileStmt
+	| tryStmt
+	| throwStmt
+	| assertStmt
+	| breakStmt
+	| continueStmt
+	| block ;
 
 exprStmt = expression ";" ;
 
-forStmt = "for" IDENTIFIER "in" expression ":"
-		block
-		"end" ;
+forStmt = "for" IDENTIFIER "in" expression ":" block "end" ;
 
 ifStmt = "if" expression ":"
-		block
-		[ { "else" "if" expression ":" block } ]
-		[ "else" ":" block ]
-		"end" ;
+	block
+	[ { "else" "if" expression ":" block } ]
+	[ "else" ":" block ]
+	"end" ;
 
 printStmt = "print" "(" expression ")" ";" ;
 
 printLnStmt = "println" "(" expression ")" ";" ;
 
+eprintStmt = "eprint" "(" expression ")" ";" ;
+
+eprintLnStmt = "eprintln" "(" expression ")" ";" ;
+
 returnStmt = "return" [ expression ] ";" ;
 
-whileStmt = "while" expression ":" 
-			block 
-			"end" ;
+whileStmt = "while" expression ":" block "end" ;
 
-tryStmt = "try" ":"
-			block
-			"catch" IDENTIFIER ":"
-			block
-			"end" ;
+tryStmt = "try" ":" block "catch" IDENTIFIER ":" block "end" ;
 
 throwStmt = "throw" "(" expression ")" ;
 
@@ -121,8 +115,7 @@ unary = [ ( "!" | "-" | "~" ) ] unary | call ;
 call = primary [ { "(" [ expression [ { "," expression } ] ] ")" | "." IDENTIFIER } ] ;
 
 primary = "true" | "false" | "this" | instanceof | isobject | cast
-		| NUMBER | STRING | IDENTIFIER | "(" expression ")"
-		| LIST | DICT ;
+	| NUMBER | STRING | IDENTIFIER | "(" expression ")" | LIST | DICT ;
 
 instanceof = "instanceof" "(" expression "," TYPE ")" ;
 
@@ -165,22 +158,26 @@ DICT = "{" [ { expression ":" expression "," } ] "}" ;
 ```ebnf
 
 keyword = "class"
-		| "func"
-		| "export"
-		| "for"
-		| "in"
-		| "by"
-		| "while"
-		| "end"
-		| "if"
-		| "else"
-		| "true"
-		| "false"
-		| "this"
-		| "null"
-		| "var"
-		| "final"
-		| "instanceof"
-		| "isobject"
+	| "func"
+	| "export"
+	| "for"
+	| "in"
+	| "by"
+	| "while"
+	| "end"
+	| "if"
+	| "else"
+	| "true"
+	| "false"
+	| "this"
+	| "null"
+	| "var"
+	| "final"
+	| "instanceof"
+	| "isobject"
+	| "print"
+	| "println"
+	| "eprint"
+	| "eprintln" ;
 
 ```
