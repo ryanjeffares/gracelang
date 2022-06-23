@@ -5,37 +5,35 @@ This file contains the grammar for the Grace language, presented in [EBNF](https
 # Syntax Grammar
 
 ```ebnf
+
 program = { declaration } EOF ;
+
 ```
 
 ## Declarations
 
 ```ebnf
+
 declaration = classDecl
 			| funcDecl
 			| varDecl
 			| finalDecl
-			| breakDecl
-			| assertDecl
 			| statement ;
 
 classDecl = "class" IDENTIFIER ":" { function } "end" ;
 
-funcDecl = "func" function ;
+funcDecl = "func" [ "export" ] IDENTIFIER "(" [ [ "final" ] IDENTIFIER [ { "," [ "final" ] IDENTIFIER } ] ] ")" ":" block "end" ;
 
 varDecl = "var" IDENTIFIER [ "=" expression ] ";" ;
 
 finalDecl = "final" IDENTIFIER "=" expression ";" ;
-
-breakDecl = "break" ";" ;
-
-assertDecl = "assert" "(" expression [ "," STRING ] ")" ";" ;
 
 ```
 
 ## Statements
 
 ```ebnf
+
 statement = exprStmt
 		  | forStmt
 		  | ifStmt
@@ -43,11 +41,16 @@ statement = exprStmt
 		  | printLnStmt
 		  | returnStmt
 		  | whileStmt
+			| tryStmt
+			| throwStmt
+			| assertStmt
+			| breakStmt
+			| continueStmt
 		  | block ;
 
 exprStmt = expression ";" ;
 
-forStmt = "for" IDENTIFIER "in" RANGE [ "by" NUMBER ] ":"
+forStmt = "for" IDENTIFIER "in" expression ":"
 		block
 		"end" ;
 
@@ -67,6 +70,20 @@ whileStmt = "while" expression ":"
 			block 
 			"end" ;
 
+tryStmt = "try" ":"
+			block
+			"catch" IDENTIFIER ":"
+			block
+			"end" ;
+
+throwStmt = "throw" "(" expression ")" ;
+
+assertStmt = "assert" "(" expression [ "," expression ] ")" ;
+
+breakStmt = "break" ;
+
+continueStmt = "continue" ;
+
 block = { declaration - funcDecl, classDecl } ;
 
 ```
@@ -74,10 +91,10 @@ block = { declaration - funcDecl, classDecl } ;
 ## Expressions
 
 ```ebnf
-expression = assignment ;
 
-assignment = [ call "." ] IDENTIFIER "=" assignment
-			| logic_or ;
+expression = assignment | logic_or ;
+
+assignment = [ { call "." } ] IDENTIFIER "=" logic_or ;
 
 logic_or = logic_and [ { "or" logic_and } ] ;
 
@@ -91,42 +108,31 @@ term = factor [ { ( "-" | "+" ) factor } ] ;
 
 factor = unary [ { ( "/" | "*" ) unary } ] ;
 
-
 unary = [ ( "!" | "-" ) ] unary | call ;
 
-call = primary [ { "(" [ arguments ] ")" | "." IDENTIFIER } ] ;
+call = primary [ { "(" [ expression [ { "," expression } ] ] ")" | "." IDENTIFIER } ] ;
 
-primary = "true" | "false" | "this" | instanceof | cast
+primary = "true" | "false" | "this" | instanceof | isobject | cast
 		| NUMBER | STRING | IDENTIFIER | "(" expression ")"
-		| LIST ;
+		| LIST | DICT ;
 
 instanceof = "instanceof" "(" expression "," TYPE ")" ;
 
+isobject = "isobject" "(" expression ")" ;
+
 cast = TYPE "(" expression ")" ;
-
-```
-
-## Utility Rules
-
-```ebnf
-function = IDENTIFIER "(" [ parameters ] ")" ":" block "end" ;
-
-parameters = IDENTIFIER [ { "," IDENTIFIER } ] ;
-
-arguments = expression [ { "," expression } ] ;
-
-list_items = expression [ ";" INTEGER ] [ { "," expression [ ";" INTEGER ] } ];
 
 ```
 
 ## Lexical Grammar
 
 ```ebnf
+
 NUMBER = INTEGER | FLOAT ;
 
-INTEGER = { DIGIT } ;
+INTEGER = { DIGIT } | "0" ( "b" | "B") { "0" | "1" } | "0" ( "x" | "X" ) { "a" ... "f" | "A" ... "F" | "0" ... "9" };
 
-FLOAT = { DIGIT } [ "." DIGIT ] ;
+FLOAT = { DIGIT } "." { DIGIT } ;
 
 STRING = '"' any char '"';
 
@@ -138,16 +144,21 @@ DIGIT = "0" ... "9" ;
 
 TYPE = "int" | "float" | "bool" | "string" | "char" ;
 
-RANGE = ( NUMBER | IDENTIFIER ) ".." ( NUMBER | IDENTIFIER ) ;
+RANGE = expression ".." expression [ "by" expression ] ;
 
-LIST = "[" list_items "]" ;
+LIST = "[" [ { expression "," } | RANGE ] "]" ;
+
+DICT = "{" [ { expression ":" expression "," } ] "}" ;
+
 ```
 
 ## Keywords
 
 ```ebnf
+
 keyword = "class"
 		| "func"
+		| "export"
 		| "for"
 		| "in"
 		| "by"
@@ -161,4 +172,7 @@ keyword = "class"
 		| "null"
 		| "var"
 		| "final"
+		| "instanceof"
+		| "isobject"
+
 ```
