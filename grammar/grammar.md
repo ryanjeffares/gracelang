@@ -14,9 +14,9 @@ program = { declaration } EOF ;
 
 ```ebnf
 
-declaration = classDecl | funcDecl | varDecl | finalDecl | statement ;
+declaration = structDecl | funcDecl | varDecl | finalDecl | statement ;
 
-classDecl = "class" IDENTIFIER ":" { function } "end" ;
+structDecl = "struct" [ "export" ] IDENTIFIER ":" { [ "final" ] IDENTIFIER ";" } "end" ;
 
 funcDecl = "func" [ "export" ] IDENTIFIER "(" [ [ "final" ] IDENTIFIER [ { "," [ "final" ] IDENTIFIER } ] ] ")" ":" block "end" ;
 
@@ -56,13 +56,13 @@ ifStmt = "if" expression ":"
 	[ "else" ":" block ]
 	"end" ;
 
-printStmt = "print" "(" expression ")" ";" ;
+printStmt = "print" "(" [ expression ] ")" ";" ;
 
-printLnStmt = "println" "(" expression ")" ";" ;
+printLnStmt = "println" "(" [ expression ] ")" ";" ;
 
-eprintStmt = "eprint" "(" expression ")" ";" ;
+eprintStmt = "eprint" "(" [ expression ] ")" ";" ;
 
-eprintLnStmt = "eprintln" "(" expression ")" ";" ;
+eprintLnStmt = "eprintln" "(" [ expression ] ")" ";" ;
 
 returnStmt = "return" [ expression ] ";" ;
 
@@ -78,7 +78,7 @@ breakStmt = "break" ;
 
 continueStmt = "continue" ;
 
-block = { declaration - funcDecl, classDecl } ;
+block = [ { declaration - ( funcDecl, structDecl ) } ] ;
 
 ```
 
