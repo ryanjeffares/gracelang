@@ -14,11 +14,18 @@ program = { declaration } EOF ;
 
 ```ebnf
 
-declaration = structDecl | funcDecl | varDecl | finalDecl | statement ;
+declaration = importDecl | classDecl | funcDecl | varDecl | finalDecl | constDecl | statement ;
 
-structDecl = "struct" [ "export" ] IDENTIFIER ":" { [ "final" ] IDENTIFIER ";" } "end" ;
+importDecl = "import" { IDENTIFIER "::" } IDENTIFIER ";" ;
 
-funcDecl = "func" [ "export" ] IDENTIFIER "(" [ [ "final" ] IDENTIFIER [ { "," [ "final" ] IDENTIFIER } ] ] ")" ":" block "end" ;
+classDecl = "class" [ "export" ] IDENTIFIER ":" 
+	[ { "var" IDENTIFIER ";" } ]
+	[ "constructor" "(" [ [ "final" ] IDENTIFIER [ { "," [ "final" ] IDENTIFIER } ] ] ")" ":" block "end" ] ;
+	"end" ;
+
+funcDecl = "func" [ "export" ] IDENTIFIER "(" [ "this" (IDENTIFIER | Type) IDENTIFIER "," ] [ [ "final" ] IDENTIFIER [ { "," [ "final" ] IDENTIFIER } ] ] ")" ":" 
+	block
+	"end" ;
 
 varDecl = "var" IDENTIFIER [ "=" expression ] ";" ;
 
@@ -121,7 +128,7 @@ instanceof = "instanceof" "(" expression "," TYPE ")" ;
 
 isobject = "isobject" "(" expression ")" ;
 
-cast = TYPE "(" expression ")" ;
+cast = TYPE "(" expression [ { "," expression } ] ")" ;
 
 ```
 
@@ -143,7 +150,7 @@ ALPHA = "a" ... "z" | "A" ... "Z" | "_" ;
 
 DIGIT = "0" ... "9" ;
 
-TYPE = "Int" | "Float" | "Bool" | "String" | "Char" | "List" | "Dict" ;
+TYPE = "Int" | "Float" | "Bool" | "String" | "Char" | "List" | "Dict" | "KeyValuePair" | "Exception" ;
 
 RANGE = expression ".." expression [ "by" expression ] ;
 
@@ -158,6 +165,8 @@ DICT = "{" [ { expression ":" expression "," } ] "}" ;
 ```ebnf
 
 keyword = "class"
+	| "const"
+	| "constructor"
 	| "func"
 	| "export"
 	| "for"

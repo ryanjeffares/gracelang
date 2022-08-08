@@ -22,18 +22,19 @@ func well_named_function(well_named_arg):  // good
   var well_named_local;
 end
 ```
-* `static` fields should be named with `UPPER_SNAKE_CASE`
+* `const` fields should be named with `UPPER_SNAKE_CASE`
 ```
-static PoorlyNamedStatic = 1;  // bad
-static WELL_NAMED_STATIC = 1;  // good
+const PoorlyNamedConst = 1;  // bad
+const WELL_NAMED_CONST = 1;  // good
 ```
-* No user defined types, functions, or variables should ever start with a double underscore (`__`) as this is reserved for internal use
+* No user defined types, functions, or variables can ever start with a double underscore (`__`) as this is reserved for internal use
 ```
 class __PoorlyNamedClass:  // bad
 end
 ```
 
 ## Variables
+
 * It is good practice to use `final` over `var` wherever possible (prefer immutability)
 ```
 func factorial(n):  // bad - n should be final
@@ -52,6 +53,7 @@ end
 ```
 
 ## Spacing and Indentation
+
 * Whitespace and indentation are ignored by the Grace compiler except where it changes the meaning or validity of an expression, for example:
 ```
 final x = 10*2==20;  // valid
@@ -67,17 +69,16 @@ if x:                        // good
   println("hello");
 end
 ```
-* A new level of indentation should appear after each new block opens, and indentation should ideally be 2 spaces
+* A new level of indentation should appear after each new block opens. Indentation can be any size, but constitency is best.
 ```
 func say_hello():
 println("hello");        // bad - no indentation  
 end
 
 func say_goodbye():
-    println("goodbye");  // bad - indentation is 4 spaces
-end
-
-func say_hi():
-  println("hi");         // good - indentation is 2 spaces
+  if 0:
+      println();         // bad - indentation is inconsistent  
+  end
+  println("goodbye");
 end
 ```
