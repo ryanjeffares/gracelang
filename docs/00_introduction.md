@@ -10,17 +10,19 @@ If you find something that is inconsistent between the documentation and behavio
     2. Variable Semantics
     3. Constants
     4. Builtin Primitive Types
-    5. Printing
-    6. If Statements
-    7. Loops
-    8. Try/Catch
-    9. Assertions
-    10. Function Semantics
-    11. Builtin Collections
-    12. Other Builtin Objects
-    13. Classes
-    14. Object Lifetimes
-    15. Imports/Exports
+    5. Operators
+    6. Printing
+    7. Builtin functions
+    8. If Statements
+    9. Loops
+    10. Try/Catch
+    11. Assertions
+    12. Function Semantics
+    13. Builtin Collections
+    14. Other Builtin Objects
+    15. Classes
+    16. Object Lifetimes
+    17. Imports/Exports
 
 2.  Standard Library
     1.  TBC
